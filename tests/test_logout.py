@@ -1,12 +1,13 @@
-from conftest import login_user, logout_user
-from tests.locators import MainNoAuthPageLocators
+from helpers import get_wait, login_user, logout_user
+from locators import MainNoAuthPageLocators
 from selenium.webdriver.support import expected_conditions as EC
 
 class TestLogout:
-    def test_logout(self, driver, registered_user_data, wait_5):
-        login_user(driver, wait_5, registered_user_data["email"], registered_user_data["password"])
+    def test_logout(self, driver, registered_user_data):
+        wait = get_wait(driver)
+        login_user(driver, wait, registered_user_data["email"], registered_user_data["password"])
 
-        logout_user(driver, wait_5)
+        logout_user(driver, wait)
 
-        assert wait_5.until(EC.visibility_of_element_located(MainNoAuthPageLocators.BUTTON_ENTER_AND_REG))
+        assert wait.until(EC.visibility_of_element_located(MainNoAuthPageLocators.BUTTON_ENTER_AND_REG))
 

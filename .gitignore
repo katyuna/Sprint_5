@@ -40,6 +40,7 @@ review.md
 
 # Local test debugging log (not for commit)
 tests/debug_log.md
+debug-log.md
 
 # Windows
 Thumbs.db
