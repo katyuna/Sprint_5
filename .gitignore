@@ -32,6 +32,16 @@ htmlcov/
 .pyre/
 .pytype/
 
+# Local notes (not for commit)
+review.md
+
+# Local Copilot agents (not for commit)
+.github/agents/
+
+# Local test debugging log (not for commit)
+tests/debug_log.md
+debug-log.md
+
 # Windows
 Thumbs.db
 Thumbs.db:encryptable
