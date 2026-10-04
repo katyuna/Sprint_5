@@ -1,7 +1,7 @@
 import pytest
 from selenium.webdriver.support import expected_conditions as EC
-from locators import MainAuthPageLocators
-from helpers import create_driver, get_wait, generate_user_data, create_user
+from locators import MainAuthPageLocators, MainNoAuthPageLocators
+from helpers import create_driver, get_wait, generate_user_data, create_user, logout_user
 
 @pytest.fixture
 def driver():
@@ -9,16 +9,14 @@ def driver():
     yield driver
     driver.quit()
 
-@pytest.fixture(scope="session")
-def registered_user_data():
+@pytest.fixture
+def registered_user_data(driver):
     user_data = generate_user_data()
+    wait = get_wait(driver)
 
-    setup_driver = create_driver()
-    try:
-        setup_wait = get_wait(setup_driver)
-        create_user(setup_driver, setup_wait, user_data["email"], user_data["password"])
-        setup_wait.until(EC.visibility_of_element_located(MainAuthPageLocators.BUTTON_AVATAR))
-    finally:
-        setup_driver.quit()
+    create_user(driver, wait, user_data["email"], user_data["password"])
+    wait.until(EC.visibility_of_element_located(MainAuthPageLocators.BUTTON_AVATAR))
+    logout_user(driver, wait)
+    wait.until(EC.visibility_of_element_located(MainNoAuthPageLocators.BUTTON_ENTER_AND_REG))
 
     return user_data
